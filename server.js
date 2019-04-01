@@ -21,10 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(MONGODB_URI);
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/Articles-db", { useNewUrlParser: true });
+
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).
+then(() => console.log('MongodB Connected'))
+  .catch(err => console.log(err));
 
 // Routes
 
