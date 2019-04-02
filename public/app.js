@@ -1,5 +1,9 @@
 // Grab the articles as a json
 $(document).on("click", "h1", function() {
+ $.ajax({
+    url: "/scrape",
+    type: "GET"
+  });
 $.getJSON("/articles", function(result) {
     // For each one
     for (var i = 0; i < result.length; i++) {
@@ -65,7 +69,7 @@ $.getJSON("/articles", function(result) {
         // Log the response
         console.log(data);
         // Empty the notes section
-        $("#notes").empty();
+        //$("#notes").empty();
       });
   
     // Also, remove the values entered in the input and textarea for note entry
