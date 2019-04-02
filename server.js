@@ -22,9 +22,8 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).
-then(() => console.log('MongodB Connected'))
-  .catch(err => console.log(err));
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 // Routes
 
