@@ -46,7 +46,9 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-      
+      result.img = $(this)
+        .children("a")
+        .attr("img");
        
         //console.log(result.title);
         //console.log(result.link);
@@ -101,10 +103,8 @@ app.post("/articles/:id", function(req, res) {
  
   db.Article.create(req.body)
     .then(function(dbArticle) {
-      // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
-      // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-      // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
-      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbArticle._id }, { new: true });
+     
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, {$push:{ note: dbArticle._id }}, { new: true });
     })
     .then(function(dbArticle) {
       // If we were able to successfully update an Article, send it back to the client
@@ -132,4 +132,7 @@ app.post("/", function (req,res){
 // Start the server
 app.listen(PORT, function() {
   console.log("App running on port " + PORT + "!");
+});
+app.listen(process.env.PORT || 3000, function(){
+  console.log("Express server listening on port "+PORT+ "in %s mode", this.address().port, app.settings.env);
 });

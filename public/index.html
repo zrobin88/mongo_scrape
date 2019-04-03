@@ -36,6 +36,9 @@
     body {
       background-image: linear-gradient(rgb(77, 114, 206), white);
     }
+    .gradient{
+      background-image: linear-gradient(rgb(77, 114, 206), white);
+    }
 
     #wrapper {
       width: 960px;
@@ -79,12 +82,17 @@
 <body>
   <div class="container">
   <div id="wrapper">
-    <h1 class="coolFont">WSJ Headline Scraper: Click Here to Get Started</h1>
+      <nav class="navbar navbar-light gradient rounded mb-2 ">
+          <h1 class="coolFont">WSJ Headline Scraper: Click Here to Get Started</h1>
 
-    <h2 class="coolFont"><i>Comment on the latest headlines</i></h2>
+          <h2 class="coolFont"><i>Comment on the latest headlines</i></h2>
+        </nav>
+   
 
     <div id="articles" class="coolFont"></div>
-    <div id="notes"></div>
+    <div id="notes">
+      
+    </div>
   </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
