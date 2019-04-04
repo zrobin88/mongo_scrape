@@ -39,17 +39,29 @@ $.getJSON("/articles", function(result) {
         $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
   
         // If there's a note in the article
-        if (data.note) {
-          // Place the title of the note in the title input
-          $("#titleinput").append(data.note.title);
-          // Place the body of the note in the body textarea
-          $("#bodyinput").append(data.note.body);
+       
+      if (data.note) {
+        for (let i = 0; i < data.note.length; i++) {
+          let div = $('<div>');
+          let title = $('<h3>');
+          let p = $('<p>')
+
+          $(title).append(data.note[i].title);
+          $(p).append(data.note[i].body);
+
+          $(div).append(title);
+          $(div).append(p);
+          $(div).append('<hr>');
+          
+          $('#notes').append(div);
+          
         }
+      }
       });
   });
   
   // When you click the savenote button
-  $(document).on("click", "#savenote", function() {
+  $(document).on("click", "#savenote", function () {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
   
@@ -65,11 +77,9 @@ $.getJSON("/articles", function(result) {
       }
     })
       // With that done
-      .then(function(data) {
-
+      .then(function (data) {
         // Log the response
-        console.log(data.title);
-        console.log(data.body)
+        console.log(data);
         // Empty the notes section
         $("#notes").empty();
       });
@@ -78,4 +88,3 @@ $.getJSON("/articles", function(result) {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
-  

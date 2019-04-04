@@ -1,29 +1,33 @@
 var express = require("express");
-var logger = require("morgan");
 var mongoose = require("mongoose");
+
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000 ;
 
 // Initialize Express
 var app = express();
 
-// Configure middleware
-
-// Use morgan logger for logging requests
-app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+if(process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect("mongodb://localhost/Articles-db", { useNewUrlParser: true });
+}
+
+
 
 // Routes
 
@@ -118,21 +122,31 @@ app.post("/articles/:id", function(req, res) {
 
 
 app.post("/", function (req,res){
-  db.Article.find({})
-    .then(function(dbArticle) {
-      // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
-    })
-    .catch(function(err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
+ 
+    
+  db.Article.find({}).then((articles) => {
+    for (let i = 0; i < articles.length; i++) {
+        if (article[i].title === result.title) {
+            break;
+        }
+    }
+
+    db.Article.create(result)
+        .then(function (dbArticle) {
+            // View the added result in the console
+            console.log(dbArticle);
+        })
+        .catch(function (err) {
+            // If an error occurred, log it
+            console.log(err);
+        });
+})
 });
 
 // Start the server
-app.listen(PORT, function() {
-  console.log("App running on port " + PORT + "!");
-});
+//app.listen(PORT, function() {
+  //console.log("App running on port " + PORT + "!");
+//});
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port "+PORT+ "in %s mode", this.address().port, app.settings.env);
 });
